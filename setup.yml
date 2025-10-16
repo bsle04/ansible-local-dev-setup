@@ -1,0 +1,7 @@
+- name: Setup local dev environment
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
