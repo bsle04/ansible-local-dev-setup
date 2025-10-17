@@ -26,3 +26,26 @@
       - containerd.io
     state: present
     update_cache: yes
+
+- name: Copy Flask app files
+  copy:
+    src: ../app/
+    dest: /home/ble/app/
+    owner: ble
+    mode: '0755'
+
+- name: Build Flask Docker image
+  community.docker.docker_image:
+    name: flask-demo
+    source: build
+    build:
+      path: /home/ble/app
+
+- name: Run Flask container
+  community.docker.docker_container:
+    name: flask-demo
+    image: flask-demo
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "5000:5000"
