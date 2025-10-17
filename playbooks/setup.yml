@@ -1,0 +1,5 @@
+- name: Local environment setup
+  hosts: local
+  become: yes
+  roles:
+    - common
