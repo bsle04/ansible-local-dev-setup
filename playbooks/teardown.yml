@@ -1,0 +1,31 @@
+---
+- name: Teardown local environment
+  hosts: localhost
+  become: yes
+  tasks:
+
+    - name: Stop Flask container (ignore if not running)
+      community.docker.docker_container:
+        name: flask-demo
+        state: stopped
+      ignore_errors: yes
+
+    - name: Remove Flask container (ignore if not exists)
+      community.docker.docker_container:
+        name: flask-demo
+        state: absent
+        force_kill: yes
+      ignore_errors: yes
+
+    - name: Remove Flask Docker image (ignore if not exists)
+      community.docker.docker_image:
+        name: flask-demo
+        state: absent
+        force_absent: yes
+      ignore_errors: yes
+
+    - name: Remove copied Flask app files (ignore if not exists)
+      file:
+        path: /home/ble/app
+        state: absent
+      ignore_errors: yes
